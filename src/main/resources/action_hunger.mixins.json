@@ -4,6 +4,7 @@
   "package": "com.minenash.action_hunger.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "HungerManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

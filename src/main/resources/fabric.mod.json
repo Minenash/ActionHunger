@@ -1,37 +1,34 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "action_hunger",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "ActionHunger",
+  "description": "Changes how hunger, regen, and food works",
   "authors": [
-    "Me!"
+    "Minenash"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Minenash/ActionHunger",
+    "issues": "https://github.com/Minenash/ActionHunger/issues"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MIT",
+  "icon": "assets/action_hunger/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "com.minenash.action_hunger.ActionHunger"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "action_hunger.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
     "minecraft": "1.16.x"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

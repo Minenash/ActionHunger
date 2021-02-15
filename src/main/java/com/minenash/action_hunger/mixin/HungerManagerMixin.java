@@ -43,8 +43,8 @@ public abstract class HungerManagerMixin {
             regened = regen(player);
 
         constantHungerTimer++;
-        if (constantHungerTimer >= Config.constantHungerRate) {
-            exhaustion("Const", Config.constantHungerAmount);
+        if (constantHungerTimer >= Config.constantExhaustionRate) {
+            exhaustion("Const", Config.constantExhaustionAmount);
             constantHungerTimer = 0;
         }
 

@@ -7,8 +7,8 @@ public class Config extends TinyConfig {
     public static int constantRegenRate = 80;
     public static float constantRegenAmount = 0F;
 
-    public static int constantHungerRate = 80;
-    public static float constantHungerAmount = 0F;
+    public static int constantExhaustionRate = 80;
+    public static float constantExhaustionAmount = 0F;
 
     public static int starvationDamageRate = 80;
     public static float starvationDamageAmount = 1F;

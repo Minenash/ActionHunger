@@ -45,6 +45,9 @@ public class Config extends TinyConfig {
     public static float walkingUnderwaterExhaustionMultiplier = 0.1F;
     public static float walkingOnWaterExhaustionMultiplier = 0.1F;
 
+    public static float hungerFromFoodMultiplier = 1.0F;
+    public static float saturationFromFoodMultiplier = 1.0F;
+
     public static boolean debug = false;
 
 }

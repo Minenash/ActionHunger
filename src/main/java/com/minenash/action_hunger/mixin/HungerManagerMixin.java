@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(HungerManager.class)
 public abstract class HungerManagerMixin {
@@ -23,6 +25,11 @@ public abstract class HungerManagerMixin {
     @Unique private int constantRegenTimer = 0;
     @Unique private int constantHungerTimer = 0;
 
+
+    @Redirect(method = "eat", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;add(IF)V"))
+    private void modifyFoodComponent(HungerManager manager, int food, float saturation) {
+        manager.add(Math.round(food * Config.hungerFromFoodMultiplier), saturation * Config.saturationFromFoodMultiplier);
+    }
 
     /**
      * @author Minenash

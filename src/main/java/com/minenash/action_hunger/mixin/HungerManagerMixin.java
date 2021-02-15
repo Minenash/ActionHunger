@@ -4,6 +4,7 @@ import com.minenash.action_hunger.config.Config;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,6 +25,7 @@ public abstract class HungerManagerMixin {
 
     @Unique private int constantRegenTimer = 0;
     @Unique private int constantHungerTimer = 0;
+    @Unique private int shieldExhaustionTimer = 0;
 
 
     @Redirect(method = "eat", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;add(IF)V"))
@@ -48,7 +50,19 @@ public abstract class HungerManagerMixin {
         double dynamicRegenRateModifier = getDynamicRegenRateModifier(player);
 
         boolean regened = false;
-        if (player.world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION))
+
+        boolean isPlayerUsingShield = player.getActiveItem().getItem() == Items.SHIELD;
+
+        if (isPlayerUsingShield) {
+            ++shieldExhaustionTimer;
+            if (shieldExhaustionTimer >= Config.shieldExhaustionRate)
+                exhaustion("Shield", Config.shieldExhaustionAmount);
+        }
+        else
+            shieldExhaustionTimer = 0;
+
+        boolean blockRegenFromShield = Config.disableRegenWhenUsingShield && isPlayerUsingShield;
+        if (player.world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) && !blockRegenFromShield)
             regened = regen(player, dynamicRegenRateModifier);
 
         constantHungerTimer++;

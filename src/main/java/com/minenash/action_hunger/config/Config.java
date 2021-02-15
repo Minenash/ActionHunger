@@ -48,6 +48,10 @@ public class Config extends TinyConfig {
     public static float hungerFromFoodMultiplier = 1.0F;
     public static float saturationFromFoodMultiplier = 1.0F;
 
+    public static boolean disableRegenWhenUsingShield = false;
+    public static int shieldExhaustionRate = 80;
+    public static float shieldExhaustionAmount = 0.0F;
+
     public static boolean debug = false;
 
 }

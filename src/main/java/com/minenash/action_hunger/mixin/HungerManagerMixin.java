@@ -29,7 +29,7 @@ public abstract class HungerManagerMixin {
 
 
     @Overwrite
-    private void update(PlayerEntity player) {
+    public void update(PlayerEntity player) {
         Difficulty difficulty = player.world.getDifficulty();
         if (exhaustion > 4.0F) {
             exhaustion -= 4.0F;

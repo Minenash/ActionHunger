@@ -4,7 +4,9 @@
   "package": "com.minenash.action_hunger.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "HungerManagerMixin"
+    "HungerManagerMixin",
+    "PlayerManagerMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

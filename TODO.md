@@ -4,7 +4,7 @@ TODO
 * Blocking with a shield adds exhaustion
 * Health/Hunger-based Effects
 * hungerLossRatePercentage
-* Respawn Hunger and Health
+* ~~Respawn Hunger and Health~~
 * Make dynamic regen affect hunger
 * Add exhaustion setting for jumping
 * Add option to reduce hunger/saturation from eating food

@@ -6,3 +6,5 @@ TODO
 * hungerLossRatePercentage
 * Respawn Hunger and Health
 * Make dynamic regen affect hunger
+* Add exhaustion setting for jumping
+* Add option to reduce hunger/saturation from eating food

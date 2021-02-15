@@ -70,15 +70,15 @@ public abstract class HungerManagerMixin {
             constantRegenTimer = 0;
         }
 
-        if (foodSaturationLevel > 0.0F && player.canFoodHeal() && this.foodLevel >= 20) {
+        if (foodSaturationLevel > 0.0F && player.canFoodHeal() && foodLevel >= Config.hyperFoodRegenMinimumHunger) {
             ++foodStarvationTimer;
-            if (foodStarvationTimer >= 10) {
-                float f = Math.min(this.foodSaturationLevel, 6.0F);
-                player.heal(f / 6.0F * Config.foodRegenHealthMultiplier);
-                addExhaustion(f * Config.foodRegenExhaustionMultiplier);
+            if (foodStarvationTimer >= Config.hyperFoodRegenRate) {
+                float f = Math.min(foodSaturationLevel, 6.0F);
+                player.heal(f / 6.0F * Config.hyperFoodRegenHealthMultiplier);
+                addExhaustion(f * Config.hyperFoodRegenExhaustionMultiplier);
                 foodStarvationTimer = 0;
             }
-        } else if (foodLevel >= 18 && player.canFoodHeal()) {
+        } else if (foodLevel >= Config.foodRegenMinimumHunger && player.canFoodHeal()) {
             ++foodStarvationTimer;
             if (foodStarvationTimer >= Config.foodRegenRate * dynamicRegenRateModifier) {
                 player.heal(Config.foodRegenHealthMultiplier);

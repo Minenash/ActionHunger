@@ -16,6 +16,12 @@ public class Config extends TinyConfig {
     public static int foodRegenRate = 80;
     public static float foodRegenHealthMultiplier = 1.0F;
     public static float foodRegenExhaustionMultiplier = 1.0F;
+    public static int foodRegenMinimumHunger = 18;
+
+    public static int hyperFoodRegenRate = 10;
+    public static float hyperFoodRegenHealthMultiplier = 1.0F;
+    public static float hyperFoodRegenExhaustionMultiplier = 1.0F;
+    public static int hyperFoodRegenMinimumHunger = 20;
 
     public static DynamicRegenRateCurve dynamicRegenRateCurve = DynamicRegenRateCurve.DISABLED;
     public static float dynamicRegenRateMultiplier = 1.0F;

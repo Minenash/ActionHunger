@@ -50,9 +50,9 @@ public abstract class HungerManagerMixin {
 
         if (foodLevel <= 0) {
             ++foodStarvationTimer;
-            if (foodStarvationTimer >= 80) {
+            if (foodStarvationTimer >= Config.starvationDamageRate) {
                 if (player.getHealth() > 10.0F || difficulty == Difficulty.HARD || player.getHealth() > 1.0F && difficulty == Difficulty.NORMAL)
-                    player.damage(DamageSource.STARVE, 1.0F);
+                    player.damage(DamageSource.STARVE, Config.starvationDamageAmount);
                 foodStarvationTimer = 0;
             }
         } else {

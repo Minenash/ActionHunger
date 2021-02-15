@@ -8,6 +8,9 @@
     "PlayerManagerMixin",
     "ServerPlayerEntityMixin"
   ],
+  "client": [
+    "client.ClientPlayerEntityMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

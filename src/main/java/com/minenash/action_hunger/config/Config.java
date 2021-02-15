@@ -34,6 +34,8 @@ public class Config extends TinyConfig {
     public static int spawnHealth = 20;
     public static int spawnHunger = 20;
 
+    public static int foodLevelForSprint = 6;
+
     public static boolean debug = false;
 
 }

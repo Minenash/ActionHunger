@@ -44,7 +44,7 @@ public abstract class HungerManagerMixin {
 
         constantHungerTimer++;
         if (constantHungerTimer >= Config.constantHungerRate) {
-            player.heal(Config.constantHungerAmount);
+            addExhaustion(Config.constantHungerAmount);
             constantHungerTimer = 0;
         }
 

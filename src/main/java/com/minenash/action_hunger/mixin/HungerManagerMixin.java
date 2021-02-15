@@ -82,8 +82,8 @@ public abstract class HungerManagerMixin {
         } else if (foodLevel >= Config.foodRegenMinimumHunger && player.canFoodHeal()) {
             ++foodStarvationTimer;
             if (foodStarvationTimer >= Config.foodRegenRate * dynamicRegenRateModifier) {
-                heal(player, "Food", Config.foodRegenHealthMultiplier);
-                exhaustion("Food", 6.0F * Config.foodRegenExhaustionMultiplier);
+                heal(player, "Food", Config.foodRegenHealthAmount);
+                exhaustion("Food", Config.foodRegenExhaustionAmount);
                 foodStarvationTimer = 0;
             }
         }

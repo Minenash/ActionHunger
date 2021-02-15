@@ -14,8 +14,8 @@ public class Config extends TinyConfig {
     public static float starvationDamageAmount = 1F;
 
     public static int foodRegenRate = 80;
-    public static float foodRegenHealthMultiplier = 1.0F;
-    public static float foodRegenExhaustionMultiplier = 1.0F;
+    public static float foodRegenHealthAmount = 1.0F;
+    public static float foodRegenExhaustionAmount = 6.0F;
     public static int foodRegenMinimumHunger = 18;
 
     public static int hyperFoodRegenRate = 10;

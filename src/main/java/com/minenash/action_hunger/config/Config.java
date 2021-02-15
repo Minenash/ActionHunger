@@ -36,6 +36,15 @@ public class Config extends TinyConfig {
 
     public static int foodLevelForSprint = 6;
 
+    public static float jumpExhaustionAmount = 0.05F;
+    public static float sprintJumpExhaustionAmount = 0.2F;
+    public static float walkingExhaustionMultiplier = 0.0F;
+    public static float sprintingExhaustionMultiplier = 0.1F;
+    public static float crouchingExhaustionMultiplier = 0.0F;
+    public static float swimmingExhaustionMultiplier = 0.1F;
+    public static float walkingUnderwaterExhaustionMultiplier = 0.1F;
+    public static float walkingOnWaterExhaustionMultiplier = 0.1F;
+
     public static boolean debug = false;
 
 }

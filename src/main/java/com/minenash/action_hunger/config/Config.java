@@ -26,6 +26,11 @@ public class Config extends TinyConfig {
     public static DynamicRegenRateCurve dynamicRegenRateCurve = DynamicRegenRateCurve.DISABLED;
     public static float dynamicRegenRateMultiplier = 1.0F;
 
+    public static boolean dynamicRegenOnConstantRegen = true;
+    public static boolean dynamicRegenOnConstantExhaustion = true;
+    public static boolean dynamicRegenOnFoodRegen = true;
+    public static boolean dynamicRegenOnHyperFoodRegen = true;
+
     public static int spawnHealth = 20;
     public static int spawnHunger = 20;
 

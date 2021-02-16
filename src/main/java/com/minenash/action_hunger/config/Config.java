@@ -52,6 +52,9 @@ public class Config extends TinyConfig {
     public static int shieldExhaustionRate = 80;
     public static float shieldExhaustionAmount = 0.0F;
 
+    public static float sleepExhaustionAmount = 0.0F;
+    public static float dynamicSleepExhaustionAmount = 0.0F;
+
     public static boolean debug = false;
 
 }

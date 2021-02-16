@@ -5,9 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "HungerManagerMixin",
+    "LivingEntityMixin",
     "PlayerEntityMixin",
-    "PlayerManagerMixin",
-    "ServerPlayerEntityMixin"
+    "PlayerManagerMixin"
   ],
   "client": [
     "client.ClientPlayerEntityMixin"

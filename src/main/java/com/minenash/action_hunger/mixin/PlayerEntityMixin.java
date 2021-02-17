@@ -1,6 +1,7 @@
 package com.minenash.action_hunger.mixin;
 
 import com.minenash.action_hunger.config.Config;
+import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PlayerEntityMixin {
 
     @Shadow public abstract void addExhaustion(float exhaustion);
+
+    @Shadow protected HungerManager hungerManager;
 
     @ModifyArg(method = "jump", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V", ordinal = 0), index = 0)
     private float changeSprintJumpExhaustionAmount(float _original) {
@@ -65,8 +68,10 @@ public abstract class PlayerEntityMixin {
 
     @Inject(method = "wakeUp(ZZ)V", at = @At(value = "HEAD"))
     private void applyStaticExhaustionForSleep(CallbackInfo info) {
-        System.out.println("THIS");
-        addExhaustion(Config.sleepExhaustionAmount);
+        if (Config.sleepExhaustionAmount < hungerManager.getFoodLevel() + hungerManager.getSaturationLevel() + 1)
+            addExhaustion(Config.sleepExhaustionAmount);
+        else
+            hungerManager.setFoodLevel(2);
     }
 
 }

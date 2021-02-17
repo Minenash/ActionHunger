@@ -1,5 +1,6 @@
 package com.minenash.action_hunger.mixin;
 
+import com.minenash.action_hunger.ActionHunger;
 import com.minenash.action_hunger.config.Config;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.HungerManager;
@@ -47,7 +48,7 @@ public abstract class HungerManagerMixin {
                 foodLevel = Math.max(foodLevel - 1, 0);
         }
 
-        double dynamicRegenRateModifier = getDynamicRegenRateModifier(player);
+        double dynamicRegenRateModifier = ActionHunger.getCurveModifier(player.getHealth(), Config.dynamicRegenRateCurve, Config.dynamicRegenRateMultiplier);
 
         boolean regened = false;
 
@@ -112,16 +113,6 @@ public abstract class HungerManagerMixin {
         return true;
     }
 
-    private double getDynamicRegenRateModifier(PlayerEntity player) {
-        double step =  (20 - player.getHealth()) * Config.dynamicRegenRateMultiplier + 1;
-        switch (Config.dynamicRegenRateCurve) {
-            case DISABLED: return 1.0D;
-            case LINEAR: return step;
-            case QUADRATIC: return Math.pow(step, 2);
-            case EXPONENTIAL: return Math.pow(Math.E, step);
-        }
-        return 1.0D;
-    }
 
     private void heal(PlayerEntity player, String source, float amount) {
         if (Config.debug)

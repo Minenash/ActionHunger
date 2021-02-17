@@ -2,7 +2,7 @@ package com.minenash.action_hunger.config;
 
 public class Config extends TinyConfig {
 
-    public enum DynamicRegenRateCurve {DISABLED, LINEAR, QUADRATIC, EXPONENTIAL}
+    public enum Curve {DISABLED, LINEAR, QUADRATIC, EXPONENTIAL}
 
     public static int constantRegenRate = 80;
     public static float constantRegenAmount = 0F;
@@ -23,7 +23,7 @@ public class Config extends TinyConfig {
     public static float hyperFoodRegenExhaustionMultiplier = 1.0F;
     public static int hyperFoodRegenMinimumHunger = 20;
 
-    public static DynamicRegenRateCurve dynamicRegenRateCurve = DynamicRegenRateCurve.DISABLED;
+    public static Curve dynamicRegenRateCurve = Curve.DISABLED;
     public static float dynamicRegenRateMultiplier = 1.0F;
 
     public static boolean dynamicRegenOnConstantRegen = true;
@@ -56,5 +56,7 @@ public class Config extends TinyConfig {
     public static float dynamicSleepExhaustionAmount = 0.0F;
 
     public static boolean debug = false;
+
+    public static HealthEffect[] effects = new HealthEffect[0];
 
 }

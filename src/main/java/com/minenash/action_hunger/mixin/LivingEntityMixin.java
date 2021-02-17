@@ -31,8 +31,14 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "wakeUp", at = @At("TAIL"))
     private void applyDynamicSleepExhaustion(CallbackInfo info) {
         if ((Object)this instanceof PlayerEntity) {
-            int timeDiff = Math.round(Math.abs((this.world.getTimeOfDay() % 24000) - startSleep) / 1000.0F);
-            ((PlayerEntity)(Object)this).addExhaustion(timeDiff * Config.dynamicSleepExhaustionAmount);
+            PlayerEntity player = (PlayerEntity)(Object)this;
+            float exhaustion = Math.round(Math.abs((this.world.getTimeOfDay() % 24000) - startSleep) / 1000.0F) * Config.dynamicSleepExhaustionAmount;
+
+            if (Config.sleepExhaustionAmount < player.getHungerManager().getFoodLevel() + player.getHungerManager().getSaturationLevel() + 1)
+                player.addExhaustion(exhaustion);
+            else
+                player.getHungerManager().setFoodLevel(2);
+
             startSleep = 0;
         }
     }

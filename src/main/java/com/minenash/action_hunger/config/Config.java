@@ -58,5 +58,6 @@ public class Config extends TinyConfig {
     public static boolean debug = false;
 
     public static HealthEffect[] effects = new HealthEffect[0];
+    public static SleepEffects[] sleepEffects = new SleepEffects[0];
 
 }

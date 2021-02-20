@@ -7,7 +7,9 @@
     "HungerManagerMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
-    "PlayerManagerMixin"
+    "PlayerManagerMixin",
+    "ServerPlayerEntityMixin",
+    "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
     "client.ClientPlayerEntityMixin"

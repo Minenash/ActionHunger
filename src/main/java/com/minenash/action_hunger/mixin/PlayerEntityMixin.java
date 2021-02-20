@@ -1,6 +1,9 @@
 package com.minenash.action_hunger.mixin;
 
 import com.minenash.action_hunger.config.Config;
+import com.minenash.action_hunger.config.SleepEffects;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -64,14 +67,6 @@ public abstract class PlayerEntityMixin {
     @ModifyArg(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", ordinal = 5, target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V"), index = 0)
     private float changeWalkExhaustionAmount(float _original) {
         return movementForExhaustion * Config.walkingExhaustionMultiplier;
-    }
-
-    @Inject(method = "wakeUp(ZZ)V", at = @At(value = "HEAD"))
-    private void applyStaticExhaustionForSleep(CallbackInfo info) {
-        if (Config.sleepExhaustionAmount < hungerManager.getFoodLevel() + hungerManager.getSaturationLevel() + 1)
-            addExhaustion(Config.sleepExhaustionAmount);
-        else
-            hungerManager.setFoodLevel(2);
     }
 
 }

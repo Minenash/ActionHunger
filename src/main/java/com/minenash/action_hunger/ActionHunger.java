@@ -2,6 +2,7 @@ package com.minenash.action_hunger;
 
 import com.minenash.action_hunger.config.Config;
 import com.minenash.action_hunger.config.HealthEffect;
+import com.minenash.action_hunger.config.SleepEffects;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
@@ -17,6 +18,8 @@ import net.minecraft.util.registry.Registry;
 
 
 public class ActionHunger implements ModInitializer {
+
+	public static boolean ignoreWake = false;
 
 	@Override
 	public void onInitialize() {
@@ -59,6 +62,8 @@ public class ActionHunger implements ModInitializer {
 
 	private void mapHealthEffects() {
 		for (HealthEffect effect : Config.effects)
+			effect.statusEffect = Registry.STATUS_EFFECT.get(new Identifier(effect.effect));
+		for (SleepEffects effect : Config.sleepEffects)
 			effect.statusEffect = Registry.STATUS_EFFECT.get(new Identifier(effect.effect));
 	}
 

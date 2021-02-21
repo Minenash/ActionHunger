@@ -18,9 +18,8 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "com.minenash.action_hunger.ActionHunger"
-    ]
+    "main":   ["com.minenash.action_hunger.ActionHunger"],
+    "client": ["com.minenash.action_hunger.ClientInitializer"]
   },
   "mixins": [
     "action_hunger.mixins.json"

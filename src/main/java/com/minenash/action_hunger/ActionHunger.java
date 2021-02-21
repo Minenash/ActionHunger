@@ -19,6 +19,7 @@ import net.minecraft.util.registry.Registry;
 
 public class ActionHunger implements ModInitializer {
 
+	public static final Identifier SPRINT_PACKET = new Identifier("action_hunger", "food_level_for_sprint");
 	public static boolean ignoreWake = false;
 
 	@Override

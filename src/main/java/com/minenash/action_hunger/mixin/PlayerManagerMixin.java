@@ -1,12 +1,18 @@
 package com.minenash.action_hunger.mixin;
 
+import com.minenash.action_hunger.ActionHunger;
 import com.minenash.action_hunger.config.Config;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.ClientConnection;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerManager.class)
 public class PlayerManagerMixin {
@@ -15,6 +21,13 @@ public class PlayerManagerMixin {
     private void setSpawnHealthAndFood(ServerPlayerEntity player, float _base) {
         player.setHealth(Config.spawnHealth);
         player.getHungerManager().setFoodLevel(Config.spawnHunger);
+    }
+
+    @Inject(method = "onPlayerConnect", at = @At("TAIL"))
+    private void sendFoodLevelForSprint(ClientConnection _connection, ServerPlayerEntity player, CallbackInfo _info) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(Config.foodLevelForSprint);
+        ServerPlayNetworking.send(player, ActionHunger.SPRINT_PACKET, buf);
     }
 
 }

@@ -2,7 +2,7 @@ package com.minenash.action_hunger.mixin;
 
 import com.minenash.action_hunger.ActionHunger;
 import com.minenash.action_hunger.config.Config;
-import com.minenash.action_hunger.config.SleepEffects;
+import com.minenash.action_hunger.config.HealthEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerPlayerEntityMixin {
 
     @Inject(method = "wakeUp(ZZ)V", at = @At(value = "HEAD"))
-    private void applyStaticExhaustionForSleep(CallbackInfo _info) {
+    private void actionHunger$applyStaticExhaustionForSleep(CallbackInfo _info) {
         if (ActionHunger.ignoreWake) {
             ActionHunger.ignoreWake = false;
             return;
@@ -30,8 +30,9 @@ public class ServerPlayerEntityMixin {
         System.out.println("HIIIISIISII");
 
 
-        for (SleepEffects effect : Config.sleepEffects)
-            p.addStatusEffect(new StatusEffectInstance(effect.statusEffect, effect.duration, effect.amplifier));
+        for (HealthEffect effect : Config.effects)
+            if (effect.onSleep)
+                p.addStatusEffect(new StatusEffectInstance(effect.statusEffect, effect.onSleepDuration, effect.amplifier));
     }
 
 }

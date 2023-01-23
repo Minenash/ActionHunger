@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerPlayNetworkHandlerMixin {
 
     @Inject(method = "onClientCommand", at = @At(value = "INVOKE",target = "Lnet/minecraft/server/network/ServerPlayerEntity;wakeUp(ZZ)V", shift = At.Shift.BEFORE))
-    private void test2(CallbackInfo info) {
+    private void actionHunger$test2(CallbackInfo info) {
         ActionHunger.ignoreWake = true;
     }
 

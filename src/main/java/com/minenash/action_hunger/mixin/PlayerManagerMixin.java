@@ -18,13 +18,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerManagerMixin {
 
     @Redirect(method = "respawnPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;setHealth(F)V"))
-    private void setSpawnHealthAndFood(ServerPlayerEntity player, float _base) {
+    private void actionHunger$setSpawnHealthAndFood(ServerPlayerEntity player, float _base) {
         player.setHealth(Config.spawnHealth);
         player.getHungerManager().setFoodLevel(Config.spawnHunger);
     }
 
     @Inject(method = "onPlayerConnect", at = @At("TAIL"))
-    private void sendFoodLevelForSprint(ClientConnection _connection, ServerPlayerEntity player, CallbackInfo _info) {
+    private void actionHunger$sendFoodLevelForSprint(ClientConnection _connection, ServerPlayerEntity player, CallbackInfo _info) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(Config.foodLevelForSprint);
         ServerPlayNetworking.send(player, ActionHunger.SPRINT_PACKET, buf);

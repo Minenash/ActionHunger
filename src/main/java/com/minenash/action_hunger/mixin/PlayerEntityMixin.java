@@ -1,9 +1,6 @@
 package com.minenash.action_hunger.mixin;
 
 import com.minenash.action_hunger.config.Config;
-import com.minenash.action_hunger.config.SleepEffects;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -23,49 +20,49 @@ public abstract class PlayerEntityMixin {
     @Shadow protected HungerManager hungerManager;
 
     @ModifyArg(method = "jump", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V", ordinal = 0), index = 0)
-    private float changeSprintJumpExhaustionAmount(float _original) {
+    private float actionHunger$changeSprintJumpExhaustionAmount(float _original) {
         return Config.sprintJumpExhaustionAmount;
     }
 
     @ModifyArg(method = "jump", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V", ordinal = 1), index = 0)
-    private float changeJumpExhaustionAmount(float _original) {
+    private float actionHunger$changeJumpExhaustionAmount(float _original) {
         return Config.jumpExhaustionAmount;
     }
 
     @Unique private float movementForExhaustion;
 
     @Inject(method = "increaseTravelMotionStats", at = @At("HEAD"))
-    private void setMovementForExhaustion(double dx, double dy, double dz, CallbackInfo info) {
-        movementForExhaustion = Math.round(MathHelper.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F) * 0.01F;
+    private void actionHunger$setMovementForExhaustion(double dx, double dy, double dz, CallbackInfo info) {
+        movementForExhaustion = Math.round(MathHelper.sqrt((float) (dx * dx + dy * dy + dz * dz)) * 100.0F) * 0.01F;
     }
 
     @ModifyArg(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V"), index = 0)
-    private float changeSwimExhaustionAmount(float _original) {
+    private float actionHunger$changeSwimExhaustionAmount(float _original) {
         return movementForExhaustion * Config.swimmingExhaustionMultiplier;
     }
 
     @ModifyArg(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V"), index = 0)
-    private float changeWalkUnderWaterExhaustionAmount(float _original) {
+    private float actionHunger$changeWalkUnderWaterExhaustionAmount(float _original) {
         return movementForExhaustion * Config.walkingUnderwaterExhaustionMultiplier;
     }
 
     @ModifyArg(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", ordinal = 2, target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V"), index = 0)
-    private float changeWalkOnWaterExhaustionAmount(float _original) {
+    private float actionHunger$changeWalkOnWaterExhaustionAmount(float _original) {
         return movementForExhaustion * Config.walkingOnWaterExhaustionMultiplier;
     }
 
     @ModifyArg(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", ordinal = 3, target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V"), index = 0)
-    private float changeSprintExhaustionAmount(float _original) {
+    private float actionHunger$changeSprintExhaustionAmount(float _original) {
         return movementForExhaustion * Config.sprintingExhaustionMultiplier;
     }
 
     @ModifyArg(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", ordinal = 4, target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V"), index = 0)
-    private float changeCrouchExhaustionAmount(float _original) {
+    private float actionHunger$changeCrouchExhaustionAmount(float _original) {
         return movementForExhaustion * Config.crouchingExhaustionMultiplier;
     }
 
     @ModifyArg(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", ordinal = 5, target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V"), index = 0)
-    private float changeWalkExhaustionAmount(float _original) {
+    private float actionHunger$changeWalkExhaustionAmount(float _original) {
         return movementForExhaustion * Config.walkingExhaustionMultiplier;
     }
 

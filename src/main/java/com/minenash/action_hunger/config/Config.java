@@ -3,6 +3,8 @@ package com.minenash.action_hunger.config;
 public class Config extends TinyConfig {
 
     public enum Curve {DISABLED, LINEAR, QUADRATIC, EXPONENTIAL}
+    public enum RequiredBounds {BOTH, EITHER}
+    public enum AmplifierCurveSource {HEALTH, HUNGER}
 
     public static int constantRegenRate = 80;
     public static float constantRegenAmount = 0F;
@@ -58,6 +60,5 @@ public class Config extends TinyConfig {
     public static boolean debug = false;
 
     public static HealthEffect[] effects = new HealthEffect[0];
-    public static SleepEffects[] sleepEffects = new SleepEffects[0];
 
 }

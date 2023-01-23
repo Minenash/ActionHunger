@@ -20,8 +20,8 @@ public abstract class HungerManagerMixin {
 
     @Shadow private int foodLevel;
     @Shadow private float exhaustion;
-    @Shadow private float foodSaturationLevel;
-    @Shadow private int foodStarvationTimer;
+    @Shadow private float saturationLevel;
+    @Shadow private int foodTickTimer;
     @Shadow public abstract void addExhaustion(float exhaustion);
 
     @Unique private int constantRegenTimer = 0;
@@ -30,23 +30,27 @@ public abstract class HungerManagerMixin {
 
 
     @Redirect(method = "eat", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;add(IF)V"))
-    private void modifyFoodComponent(HungerManager manager, int food, float saturation) {
+    private void actionHunger$modifyFoodComponent(HungerManager manager, int food, float saturation) {
         manager.add(Math.round(food * Config.hungerFromFoodMultiplier), saturation * Config.saturationFromFoodMultiplier);
     }
 
     /**
      * @author Minenash
+     * @reason Too complicated to with normal mixins
      */
     @Overwrite
     public void update(PlayerEntity player) {
         Difficulty difficulty = player.world.getDifficulty();
         if (exhaustion > 4.0F) {
             exhaustion -= 4.0F;
-            if (foodSaturationLevel > 0.0F)
-                foodSaturationLevel = Math.max(foodSaturationLevel - 1.0F, 0.0F);
+            if (saturationLevel > 0.0F)
+                saturationLevel = Math.max(saturationLevel - 1.0F, 0.0F);
             else if (difficulty != Difficulty.PEACEFUL)
                 foodLevel = Math.max(foodLevel - 1, 0);
         }
+
+        if (player.getAbilities().invulnerable)
+            return;
 
         double dynamicRegenRateModifier = ActionHunger.getCurveModifier(player.getHealth(), Config.dynamicRegenRateCurve, Config.dynamicRegenRateMultiplier);
 
@@ -73,14 +77,14 @@ public abstract class HungerManagerMixin {
         }
 
         if (foodLevel <= 0) {
-            ++foodStarvationTimer;
-            if (foodStarvationTimer >= Config.starvationDamageRate) {
+            ++foodTickTimer;
+            if (foodTickTimer >= Config.starvationDamageRate) {
                 if (player.getHealth() > 10.0F || difficulty == Difficulty.HARD || player.getHealth() > 1.0F && difficulty == Difficulty.NORMAL)
                     player.damage(DamageSource.STARVE, Config.starvationDamageAmount);
-                foodStarvationTimer = 0;
+                foodTickTimer = 0;
             }
         } else if (!regened){
-            foodStarvationTimer = 0;
+            foodTickTimer = 0;
         }
 
     }
@@ -92,20 +96,20 @@ public abstract class HungerManagerMixin {
             constantRegenTimer = 0;
         }
 
-        if (foodSaturationLevel > 0.0F && player.canFoodHeal() && foodLevel >= Config.hyperFoodRegenMinimumHunger) {
-            ++foodStarvationTimer;
-            if (foodStarvationTimer >= Config.hyperFoodRegenRate * (Config.dynamicRegenOnHyperFoodRegen ? dynamicRegenRateModifier : 1.0D)) {
-                float f = Math.min(foodSaturationLevel, 6.0F);
+        if (saturationLevel > 0.0F && player.canFoodHeal() && foodLevel >= Config.hyperFoodRegenMinimumHunger) {
+            ++foodTickTimer;
+            if (foodTickTimer >= Config.hyperFoodRegenRate * (Config.dynamicRegenOnHyperFoodRegen ? dynamicRegenRateModifier : 1.0D)) {
+                float f = Math.min(saturationLevel, 6.0F);
                 heal(player, "Hyper", f / 6.0F * Config.hyperFoodRegenHealthMultiplier);
                 exhaustion("Hyper", f * Config.hyperFoodRegenExhaustionMultiplier);
-                foodStarvationTimer = 0;
+                foodTickTimer = 0;
             }
         } else if (foodLevel >= Config.foodRegenMinimumHunger && player.canFoodHeal()) {
-            ++foodStarvationTimer;
-            if (foodStarvationTimer >= Config.foodRegenRate * (Config.dynamicRegenOnFoodRegen ? dynamicRegenRateModifier : 1.0D)) {
+            ++foodTickTimer;
+            if (foodTickTimer >= Config.foodRegenRate * (Config.dynamicRegenOnFoodRegen ? dynamicRegenRateModifier : 1.0D)) {
                 heal(player, "Food", Config.foodRegenHealthAmount);
                 exhaustion("Food", Config.foodRegenExhaustionAmount);
-                foodStarvationTimer = 0;
+                foodTickTimer = 0;
             }
         }
         else

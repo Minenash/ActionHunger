@@ -3,9 +3,12 @@ package com.minenash.action_hunger.mixin;
 import com.minenash.action_hunger.ActionHunger;
 import com.minenash.action_hunger.config.Config;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
@@ -80,7 +83,7 @@ public abstract class HungerManagerMixin {
             ++foodTickTimer;
             if (foodTickTimer >= Config.starvationDamageRate) {
                 if (player.getHealth() > 10.0F || difficulty == Difficulty.HARD || player.getHealth() > 1.0F && difficulty == Difficulty.NORMAL)
-                    player.damage(DamageSource.STARVE, Config.starvationDamageAmount);
+                    player.damage(player.getDamageSources().starve(), Config.starvationDamageAmount);
                 foodTickTimer = 0;
             }
         } else if (!regened){

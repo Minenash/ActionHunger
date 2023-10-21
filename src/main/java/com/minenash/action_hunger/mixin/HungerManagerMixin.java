@@ -43,7 +43,7 @@ public abstract class HungerManagerMixin {
      */
     @Overwrite
     public void update(PlayerEntity player) {
-        Difficulty difficulty = player.world.getDifficulty();
+        Difficulty difficulty = player.getWorld().getDifficulty();
         if (exhaustion > 4.0F) {
             exhaustion -= 4.0F;
             if (saturationLevel > 0.0F)
@@ -70,7 +70,7 @@ public abstract class HungerManagerMixin {
             shieldExhaustionTimer = 0;
 
         boolean blockRegenFromShield = Config.disableRegenWhenUsingShield && isPlayerUsingShield;
-        if (player.world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) && !blockRegenFromShield)
+        if (player.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) && !blockRegenFromShield)
             regened = regen(player, dynamicRegenRateModifier);
 
         constantHungerTimer++;

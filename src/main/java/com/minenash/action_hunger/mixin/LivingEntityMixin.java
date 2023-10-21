@@ -26,7 +26,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "sleep", at = @At("TAIL"))
     private void actionHunger$getStartSleepTime(CallbackInfo info) {
         if ((Object)this instanceof PlayerEntity) {
-            startSleep = this.world.getTimeOfDay() % 24000;
+            startSleep = this.getWorld().getTimeOfDay() % 24000;
         }
     }
 
@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
     private void actionHunger$applyDynamicSleepExhaustion(CallbackInfo info) {
         if ((Object)this instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity)(Object)this;
-            float exhaustion = Math.round(Math.abs((this.world.getTimeOfDay() % 24000) - startSleep) / 1000.0F) * Config.dynamicSleepExhaustionAmount;
+            float exhaustion = Math.round(Math.abs((this.getWorld().getTimeOfDay() % 24000) - startSleep) / 1000.0F) * Config.dynamicSleepExhaustionAmount;
 
             if (Config.sleepExhaustionAmount < player.getHungerManager().getFoodLevel() + player.getHungerManager().getSaturationLevel() + 1)
                 player.addExhaustion(exhaustion);

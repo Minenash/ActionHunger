@@ -27,9 +27,6 @@ public class ServerPlayerEntityMixin {
         else
             p.getHungerManager().setFoodLevel(2);
 
-        System.out.println("HIIIISIISII");
-
-
         for (HealthEffect effect : Config.effects)
             if (effect.onSleep)
                 p.addStatusEffect(new StatusEffectInstance(effect.statusEffect, effect.onSleepDuration, effect.amplifier));

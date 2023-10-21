@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.PlayerManager;
+import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +25,7 @@ public class PlayerManagerMixin {
     }
 
     @Inject(method = "onPlayerConnect", at = @At("TAIL"))
-    private void actionHunger$sendFoodLevelForSprint(ClientConnection _connection, ServerPlayerEntity player, CallbackInfo _info) {
+    private void actionHunger$sendFoodLevelForSprint(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(Config.foodLevelForSprint);
         ServerPlayNetworking.send(player, ActionHunger.SPRINT_PACKET, buf);

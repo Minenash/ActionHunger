@@ -7,11 +7,15 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -19,11 +23,12 @@ import net.minecraft.util.Identifier;
 
 public class ActionHunger implements ModInitializer {
 
-	public static final Identifier SPRINT_PACKET = new Identifier("action_hunger", "food_level_for_sprint");
 	public static boolean ignoreWake = false;
 
 	@Override
 	public void onInitialize() {
+		PayloadTypeRegistry.playS2C().register(FoodLevelForSprintPacket.PACKET_ID, FoodLevelForSprintPacket.PACKET_CODEC);
+
 		Config.init("action_hunger", "ActionHunger", Config.class);
 		mapHealthEffects();
 
@@ -31,6 +36,7 @@ public class ActionHunger implements ModInitializer {
 			dispatcher.register(CommandManager.literal("action_hunger_reload").executes( context -> {
 				Config.init("action_hunger", "ActionHunger", Config.class);
 				mapHealthEffects();
+				context.getSource().getServer().getPlayerManager().sendToAll(ServerPlayNetworking.createS2CPacket(new FoodLevelForSprintPacket(Config.foodLevelForSprint)));
 				context.getSource().sendMessage(Text.literal("§2[ActionHunger]:§a Config reload complete"));
 				return 1;
 			} ));
@@ -50,7 +56,7 @@ public class ActionHunger implements ModInitializer {
 					if (effect.requiredBounds == Config.RequiredBounds.BOTH ? inHealth && inHunger : inHealth || inHunger) {
 						float stepper = effect.amplifierCurveSource == Config.AmplifierCurveSource.HUNGER ? hunger : health;
 						double amplifierModifier = getCurveModifier(stepper, effect.amplifierCurve, effect.amplifierCurveMultiplier);
-						player.addStatusEffect(new StatusEffectInstance(statusEffect, 1, (int) Math.round(amplifierModifier * effect.amplifier)));
+						player.addStatusEffect(new StatusEffectInstance(RegistryEntry.of(statusEffect), 1, (int) Math.round(amplifierModifier * effect.amplifier)));
 					}
 
 				}

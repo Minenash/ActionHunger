@@ -26,15 +26,16 @@ public abstract class HungerManagerMixin {
     @Shadow private float saturationLevel;
     @Shadow private int foodTickTimer;
     @Shadow public abstract void addExhaustion(float exhaustion);
+    @Shadow private void addInternal(int food, float exhaustion) {}
 
     @Unique private int constantRegenTimer = 0;
     @Unique private int constantHungerTimer = 0;
     @Unique private int shieldExhaustionTimer = 0;
 
 
-    @Redirect(method = "eat", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;add(IF)V"))
+    @Redirect(method = "eat", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;addInternal(IF)V"))
     private void actionHunger$modifyFoodComponent(HungerManager manager, int food, float saturation) {
-        manager.add(Math.round(food * Config.hungerFromFoodMultiplier), saturation * Config.saturationFromFoodMultiplier);
+        addInternal(Math.round(food * Config.hungerFromFoodMultiplier), saturation * Config.saturationFromFoodMultiplier);
     }
 
     /**

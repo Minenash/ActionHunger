@@ -1,11 +1,17 @@
 package com.minenash.action_hunger.mixin;
 
 import com.minenash.action_hunger.ActionHunger;
+import com.minenash.action_hunger.FoodLevelForSprintPacket;
 import com.minenash.action_hunger.config.Config;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.impl.networking.FabricCustomPayloadPacketCodec;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.PacketListener;
+import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.PacketType;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -26,9 +32,7 @@ public class PlayerManagerMixin {
 
     @Inject(method = "onPlayerConnect", at = @At("TAIL"))
     private void actionHunger$sendFoodLevelForSprint(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(Config.foodLevelForSprint);
-        ServerPlayNetworking.send(player, ActionHunger.SPRINT_PACKET, buf);
+        ServerPlayNetworking.send(player, new FoodLevelForSprintPacket(Config.foodLevelForSprint));
     }
 
 }

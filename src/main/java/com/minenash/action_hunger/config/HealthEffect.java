@@ -1,7 +1,10 @@
 package com.minenash.action_hunger.config;
 
 import net.minecraft.entity.effect.StatusEffect;
-import static com.minenash.action_hunger.config.Config.*;
+
+import com.minenash.action_hunger.config.Config.AmplifierCurveSource;
+import com.minenash.action_hunger.config.Config.Curve;
+import com.minenash.action_hunger.config.Config.RequiredBounds;
 
 public class HealthEffect {
 

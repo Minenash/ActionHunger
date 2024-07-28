@@ -7,7 +7,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public record FoodLevelForSprintPacket(int foodLevel) implements CustomPayload {
-    public static final CustomPayload.Id<FoodLevelForSprintPacket> PACKET_ID = new CustomPayload.Id<>(new Identifier("action_hunger", "food_level_for_sprint"));
+    public static final CustomPayload.Id<FoodLevelForSprintPacket> PACKET_ID = new CustomPayload.Id<>(Identifier.of("action_hunger", "food_level_for_sprint"));
     public static final PacketCodec<RegistryByteBuf, FoodLevelForSprintPacket> PACKET_CODEC = PacketCodecs.VAR_INT.xmap(FoodLevelForSprintPacket::new, FoodLevelForSprintPacket::foodLevel).cast();
 
     @Override

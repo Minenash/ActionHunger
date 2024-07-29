@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -32,15 +31,13 @@ public class ActionHunger implements ModInitializer {
 		Config.init("action_hunger", "ActionHunger", Config.class);
 		mapHealthEffects();
 
-		CommandRegistrationCallback.EVENT.register((dispatcher, access, env) -> {
-			dispatcher.register(CommandManager.literal("action_hunger_reload").executes( context -> {
-				Config.init("action_hunger", "ActionHunger", Config.class);
-				mapHealthEffects();
-				context.getSource().getServer().getPlayerManager().sendToAll(ServerPlayNetworking.createS2CPacket(new FoodLevelForSprintPacket(Config.foodLevelForSprint)));
-				context.getSource().sendMessage(Text.literal("§2[ActionHunger]:§a Config reload complete"));
-				return 1;
-			} ));
-		});
+		CommandRegistrationCallback.EVENT.register((dispatcher, access, env) -> dispatcher.register(CommandManager.literal("action_hunger_reload").executes(context -> {
+            Config.init("action_hunger", "ActionHunger", Config.class);
+            mapHealthEffects();
+            context.getSource().getServer().getPlayerManager().sendToAll(ServerPlayNetworking.createS2CPacket(new FoodLevelForSprintPacket(Config.foodLevelForSprint)));
+            context.getSource().sendMessage(Text.literal("§2[ActionHunger]:§a Config reload complete"));
+            return 1;
+        } )));
 
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			for (HealthEffect effect : Config.effects) {
@@ -64,15 +61,13 @@ public class ActionHunger implements ModInitializer {
 
 		});
 
-		ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> {
-			((LivingEntityAccessor)player).setActiveItemStack(ItemStack.EMPTY);
-		});
+		ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> ((LivingEntityAccessor)player).setActiveItemStack(ItemStack.EMPTY));
 
 	}
 
 	private void mapHealthEffects() {
 		for (HealthEffect effect : Config.effects)
-			effect.statusEffect = Registries.STATUS_EFFECT.get(new Identifier(effect.effect));
+			effect.statusEffect = Registries.STATUS_EFFECT.get(Identifier.of(effect.effect));
 	}
 
 	public static double getCurveModifier(float stepper, Config.Curve curve, float multiplier) {

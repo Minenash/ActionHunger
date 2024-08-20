@@ -72,7 +72,7 @@ public class ActionHunger implements ModInitializer {
 
 	private void mapHealthEffects() {
 		for (HealthEffect effect : Config.effects)
-			effect.statusEffect = Registries.STATUS_EFFECT.get(new Identifier(effect.effect));
+			effect.statusEffect = Registries.STATUS_EFFECT.get(Identifier.of(effect.effect));
 	}
 
 	public static double getCurveModifier(float stepper, Config.Curve curve, float multiplier) {
